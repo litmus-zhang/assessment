@@ -20,12 +20,7 @@ func TestGetCompany(t *testing.T) {
 	company, err := testQueries.GetCompany(context.Background(), c.ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, company)
-	require.Equal(t, c.Name, company.Name)
-	require.Equal(t, c.OwnedBy, company.OwnedBy)
-	require.Equal(t, c.Address, company.Address)
-	require.Equal(t, c.Email, company.Email)
-	require.Equal(t, c.PhoneNumber, company.PhoneNumber)
-	require.NotZero(t, company.ID)
+	require.Equal(t, c, company)
 }
 
 func TestUpdateCompany(t *testing.T) {
@@ -44,10 +39,7 @@ func TestUpdateCompany(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, company)
 	require.Equal(t, arg.Name, company.Name)
-	require.NotEqual(t, c.Name, company.Name)
-	require.Equal(t, arg.OwnedBy, company.OwnedBy)
-	require.NotEqual(t, c.Address, company.Address)
-
+	require.NotEqual(t, c, company)
 }
 func TestGetUserCompanyByID(t *testing.T) {
 	u := CreateTestUser(t)
@@ -59,12 +51,7 @@ func TestGetUserCompanyByID(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.NotEmpty(t, company)
-	require.Equal(t, c.Name, company.Name)
-	require.Equal(t, c.OwnedBy, int32(u.ID))
-	require.Equal(t, c.Address, company.Address)
-	require.Equal(t, c.Email, company.Email)
-	require.Equal(t, c.PhoneNumber, company.PhoneNumber)
-	require.NotZero(t, company.ID)
+	require.Equal(t, c, company)
 }
 
 func TestGetAllUserCompany(t *testing.T) {

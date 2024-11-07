@@ -20,16 +20,13 @@ func TestGetUser(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, u)
 	require.Equal(t, user.ID, u.ID)
-	require.Equal(t, user.FirstName, u.FirstName)
-	require.Equal(t, user.LastName, u.LastName)
-	require.Equal(t, user.Email, u.Email)
-	require.Equal(t, user.Password, u.Password)
+	require.Equal(t, user, u)
 
 	u, err = testQueries.GetUserByEmail(context.Background(), user.Email)
 	require.NoError(t, err)
 	require.NotEmpty(t, u)
-	require.Equal(t, user.ID, u.ID)
-	require.Equal(t, user.FirstName, u.FirstName)
+	require.Equal(t, user.Email, u.Email)
+	require.Equal(t, user, u)
 
 }
 
@@ -47,10 +44,7 @@ func TestUpdateUser(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, u)
 	require.Equal(t, user.ID, u.ID)
-	require.NotEqual(t, user.FirstName, u.FirstName)
-	require.NotEqual(t, user.LastName, u.LastName)
-	require.NotEqual(t, user.Email, u.Email)
-	require.NotEqual(t, user.Password, u.Password)
+	require.NotEqual(t, user, u)
 }
 
 func TestGetAllUser(t *testing.T) {

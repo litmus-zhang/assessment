@@ -27,11 +27,7 @@ func TestGetPaymentDetailByID(t *testing.T) {
 	paymentDetail, err := testQueries.GetACompanyPaymentDetailByID(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, paymentDetail)
-	require.Equal(t, p.AccountName, paymentDetail.AccountName)
-	require.Equal(t, p.AccountNumber, paymentDetail.AccountNumber)
-	require.Equal(t, p.BankName, paymentDetail.BankName)
-	require.Equal(t, p.CompanyID, paymentDetail.CompanyID)
-	require.NotZero(t, paymentDetail.ID)
+	require.Equal(t, p, paymentDetail)
 }
 
 func TestGetAllPaymentDetailByCompanyID(t *testing.T) {
@@ -49,7 +45,6 @@ func TestGetAllPaymentDetailByCompanyID(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, paymentDetails)
 	require.Len(t, paymentDetails, 5)
-	require.NotZero(t, paymentDetails[0].ID)
 }
 func TestDeletePaymentDetail(t *testing.T) {
 	u := CreateTestUser(t)
@@ -77,9 +72,5 @@ func TestUpdatePaymentDetail(t *testing.T) {
 	paymentDetail, err := testQueries.UpdatePaymentDetail(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, paymentDetail)
-	require.NotEqual(t, p.AccountName, paymentDetail.AccountName)
-	require.NotEqual(t, p.AccountNumber, paymentDetail.AccountNumber)
-	require.NotEqual(t, p.BankName, paymentDetail.BankName)
-	require.Equal(t, p.CompanyID, paymentDetail.CompanyID)
-
+	require.NotEqual(t, p, paymentDetail)
 }

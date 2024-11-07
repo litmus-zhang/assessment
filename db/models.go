@@ -5,6 +5,7 @@
 package db
 
 import (
+	"database/sql"
 	"time"
 )
 
@@ -16,6 +17,17 @@ type CompanyDetail struct {
 	Email       string    `json:"email"`
 	OwnedBy     int32     `json:"owned_by"`
 	CreatedAt   time.Time `json:"created_at"`
+}
+
+type Customer struct {
+	ID          int64          `json:"id"`
+	FirstName   string         `json:"first_name"`
+	LastName    string         `json:"last_name"`
+	Email       string         `json:"email"`
+	PhoneNumber string         `json:"phone_number"`
+	Address     sql.NullString `json:"address"`
+	CompanyID   int64          `json:"company_id"`
+	CreatedAt   time.Time      `json:"created_at"`
 }
 
 type PaymentDetail struct {

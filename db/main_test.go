@@ -99,3 +99,25 @@ func CreateTestPaymentDetail(t *testing.T, companyID int64) PaymentDetail {
 
 	return p
 }
+
+func CreateTestCustomer(t *testing.T, companyID int64) Customer {
+	arg := CreateCustomerParams{
+		FirstName:   util.RandomUser(),
+		LastName:    util.RandomUser(),
+		Email:       util.RandomUser() + "@customer.com",
+		PhoneNumber: util.RandomPhoneNumber(),
+		CompanyID:   companyID,
+		Address:     sql.NullString{String: "Test Address", Valid: true},
+	}
+	customer, err := testQueries.CreateCustomer(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, customer)
+	require.Equal(t, arg.FirstName, customer.FirstName)
+	require.Equal(t, arg.LastName, customer.LastName)
+	require.Equal(t, arg.Email, customer.Email)
+	require.Equal(t, arg.PhoneNumber, customer.PhoneNumber)
+	require.Equal(t, arg.CompanyID, customer.CompanyID)
+	require.NotZero(t, customer.ID)
+
+	return customer
+}
