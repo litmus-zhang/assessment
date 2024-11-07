@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -120,4 +121,48 @@ func CreateTestCustomer(t *testing.T, companyID int64) Customer {
 	require.NotZero(t, customer.ID)
 
 	return customer
+}
+
+func CreateTestInvoice(t *testing.T, companyID int64, customerID int64) Invoice {
+	arg := CreateInvoiceParams{
+		CustomerID: customerID,
+		Name:       util.RandomString(8) + " Invoice",
+		DueDate:    util.RandomDateInFuture(7),
+		Status:     util.GetRandomInvoiceStatus(),
+		CompanyID:  companyID,
+		Note:       sql.NullString{String: "Test Note", Valid: true},
+		Discount:   fmt.Sprintf("%.2f", 10.0),
+	}
+	invoice, err := testQueries.CreateInvoice(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, invoice)
+	require.Equal(t, arg.CustomerID, invoice.CustomerID)
+	require.Equal(t, arg.Name, invoice.Name)
+	require.Equal(t, arg.Status, invoice.Status)
+	require.Equal(t, arg.CompanyID, invoice.CompanyID)
+	require.Equal(t, arg.Note, invoice.Note)
+	require.Equal(t, arg.Discount, invoice.Discount)
+	require.NotZero(t, invoice.ID)
+
+	return invoice
+}
+
+func CreateTestInvoiceItem(t *testing.T, invoiceID int64) Item {
+	arg := CreateItemParams{
+		Name:        util.RandomString(8),
+		UnitPrice:   fmt.Sprintf("%.2f", 10.4),
+		Description: "Test Description",
+		InvoiceID:   invoiceID,
+		Quantity:    int32(util.RandomInt(1, 30)),
+	}
+	item, err := testQueries.CreateItem(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, item)
+	require.Equal(t, arg.Name, item.Name)
+	require.Equal(t, arg.UnitPrice, item.UnitPrice)
+	require.Equal(t, arg.Description, item.Description)
+	require.Equal(t, arg.InvoiceID, item.InvoiceID)
+	require.NotZero(t, item.ID)
+
+	return item
 }

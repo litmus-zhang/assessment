@@ -30,6 +30,30 @@ type Customer struct {
 	CreatedAt   time.Time      `json:"created_at"`
 }
 
+type Invoice struct {
+	ID         int64          `json:"id"`
+	CustomerID int64          `json:"customer_id"`
+	Name       string         `json:"name"`
+	Amount     string         `json:"amount"`
+	DueDate    time.Time      `json:"due_date"`
+	Status     string         `json:"status"`
+	CompanyID  int64          `json:"company_id"`
+	Note       sql.NullString `json:"note"`
+	Discount   string         `json:"discount"`
+	UpdatedAt  time.Time      `json:"updated_at"`
+	CreatedAt  time.Time      `json:"created_at"`
+}
+
+type Item struct {
+	ID          int64          `json:"id"`
+	InvoiceID   int64          `json:"invoice_id"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Quantity    int32          `json:"quantity"`
+	UnitPrice   string         `json:"unit_price"`
+	TotalPrice  sql.NullString `json:"total_price"`
+}
+
 type PaymentDetail struct {
 	ID            int64     `json:"id"`
 	AccountName   string    `json:"account_name"`

@@ -11,18 +11,28 @@ import (
 type Querier interface {
 	CreateCompany(ctx context.Context, arg CreateCompanyParams) (CompanyDetail, error)
 	CreateCustomer(ctx context.Context, arg CreateCustomerParams) (Customer, error)
+	CreateInvoice(ctx context.Context, arg CreateInvoiceParams) (Invoice, error)
+	CreateItem(ctx context.Context, arg CreateItemParams) (Item, error)
 	CreatePaymentDetail(ctx context.Context, arg CreatePaymentDetailParams) (PaymentDetail, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteCompany(ctx context.Context, arg DeleteCompanyParams) error
 	DeleteCustomer(ctx context.Context, arg DeleteCustomerParams) error
+	DeleteInvoice(ctx context.Context, arg DeleteInvoiceParams) error
+	DeleteItem(ctx context.Context, id int64) error
 	DeletePaymentDetail(ctx context.Context, arg DeletePaymentDetailParams) error
 	DeleteUser(ctx context.Context, id int64) error
 	GetACompanyPaymentDetailByID(ctx context.Context, arg GetACompanyPaymentDetailByIDParams) (PaymentDetail, error)
+	GetAllInvoices(ctx context.Context, arg GetAllInvoicesParams) ([]Invoice, error)
+	GetAlltemsForAnInvoice(ctx context.Context, arg GetAlltemsForAnInvoiceParams) ([]Item, error)
 	GetCompaniesCreatedByUser(ctx context.Context, arg GetCompaniesCreatedByUserParams) ([]CompanyDetail, error)
 	GetCompany(ctx context.Context, id int64) (CompanyDetail, error)
 	GetCompanyCreatedByUser(ctx context.Context, arg GetCompanyCreatedByUserParams) (CompanyDetail, error)
+	GetCompanyInvoiceSummary(ctx context.Context, companyID int64) ([]GetCompanyInvoiceSummaryRow, error)
 	GetCustomerByEmail(ctx context.Context, arg GetCustomerByEmailParams) (Customer, error)
 	GetCustomerByID(ctx context.Context, arg GetCustomerByIDParams) (Customer, error)
+	GetInvoiceTotalFromItems(ctx context.Context, invoiceID int64) error
+	GetInvoicesByStatus(ctx context.Context, arg GetInvoicesByStatusParams) ([]Invoice, error)
+	GetOneInvoice(ctx context.Context, arg GetOneInvoiceParams) (Invoice, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int64) (User, error)
 	ListAllCompanyPaymentDetails(ctx context.Context, arg ListAllCompanyPaymentDetailsParams) ([]PaymentDetail, error)
@@ -30,6 +40,8 @@ type Querier interface {
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
 	UpdateCompany(ctx context.Context, arg UpdateCompanyParams) (CompanyDetail, error)
 	UpdateCustomer(ctx context.Context, arg UpdateCustomerParams) (Customer, error)
+	UpdateInvoice(ctx context.Context, arg UpdateInvoiceParams) (Invoice, error)
+	UpdateItem(ctx context.Context, arg UpdateItemParams) (Item, error)
 	UpdatePaymentDetail(ctx context.Context, arg UpdatePaymentDetailParams) (PaymentDetail, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 }

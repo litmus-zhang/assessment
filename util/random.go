@@ -47,3 +47,11 @@ func RandomUser() string {
 func RandomPhoneNumber() string {
 	return RandomNumber(11)
 }
+
+func RandomDateInFuture(n int) time.Time {
+	return time.Now().AddDate(0, 0, n)
+}
+
+func GenerateUUID() string {
+	return RandomString(8)
+}
