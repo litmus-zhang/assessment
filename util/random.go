@@ -13,6 +13,8 @@ func init() {
 // RandomInt generates a random number between min and max
 const alphabetNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+const numbers = "0123456789"
+
 func RandomInt(min, max int64) int64 {
 	return min + rand.Int63n(max-min+1)
 }
@@ -27,6 +29,21 @@ func RandomString(n int) string {
 	return sb.String()
 }
 
+func RandomNumber(n int) string {
+	var sb strings.Builder
+	k := len(numbers)
+
+	for i := 0; i < n; i++ {
+		c := numbers[rand.Intn(k)]
+		sb.WriteByte(c)
+	}
+	return sb.String()
+}
+
 func RandomUser() string {
 	return RandomString(8)
+}
+
+func RandomPhoneNumber() string {
+	return RandomNumber(11)
 }

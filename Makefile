@@ -16,4 +16,10 @@ migrateup:
 migratedown:
 	migrate -path schema/migration -database "postgresql://main:main@localhost:4000/main?sslmode=disable" -verbose down
 
+migrateup1:
+	migrate -path schema/migration -database "postgresql://main:main@localhost:4000/main?sslmode=disable" -verbose up 1
+
+migratedown1:
+	migrate -path schema/migration -database "postgresql://main:main@localhost:4000/main?sslmode=disable" -verbose down 1
+
 .PHONY: startdb stopdb sqlc migrateup migratedown test

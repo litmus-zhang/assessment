@@ -9,11 +9,22 @@ import (
 )
 
 type Querier interface {
+	CreateCompany(ctx context.Context, arg CreateCompanyParams) (CompanyDetail, error)
+	CreatePaymentDetail(ctx context.Context, arg CreatePaymentDetailParams) (PaymentDetail, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	DeleteCompany(ctx context.Context, arg DeleteCompanyParams) error
+	DeletePaymentDetail(ctx context.Context, arg DeletePaymentDetailParams) error
 	DeleteUser(ctx context.Context, id int64) error
+	GetACompanyPaymentDetailByID(ctx context.Context, arg GetACompanyPaymentDetailByIDParams) (PaymentDetail, error)
+	GetCompaniesCreatedByUser(ctx context.Context, arg GetCompaniesCreatedByUserParams) ([]CompanyDetail, error)
+	GetCompany(ctx context.Context, id int64) (CompanyDetail, error)
+	GetCompanyCreatedByUser(ctx context.Context, arg GetCompanyCreatedByUserParams) (CompanyDetail, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int64) (User, error)
+	ListAllCompanyPaymentDetails(ctx context.Context, arg ListAllCompanyPaymentDetailsParams) ([]PaymentDetail, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
+	UpdateCompany(ctx context.Context, arg UpdateCompanyParams) (CompanyDetail, error)
+	UpdatePaymentDetail(ctx context.Context, arg UpdatePaymentDetailParams) (PaymentDetail, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 }
 

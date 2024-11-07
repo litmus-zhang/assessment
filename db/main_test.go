@@ -58,3 +58,44 @@ func CreateTestUser(t *testing.T) User {
 
 	return user
 }
+
+func CreateTestCompany(t *testing.T, userID int64) CompanyDetail {
+
+	arg := CreateCompanyParams{
+		Name:        "Test Company",
+		OwnedBy:     int32(userID),
+		Address:     "Test Address",
+		Email:       util.RandomUser() + "@company.com",
+		PhoneNumber: util.RandomPhoneNumber(),
+	}
+	c, err := testQueries.CreateCompany(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, c)
+	require.Equal(t, arg.Name, c.Name)
+	require.Equal(t, arg.OwnedBy, c.OwnedBy)
+	require.Equal(t, arg.Address, c.Address)
+	require.Equal(t, arg.Email, c.Email)
+	require.Equal(t, arg.PhoneNumber, c.PhoneNumber)
+	require.NotZero(t, c.ID)
+
+	return c
+}
+
+func CreateTestPaymentDetail(t *testing.T, companyID int64) PaymentDetail {
+	arg := CreatePaymentDetailParams{
+		AccountName:   util.RandomUser() + " Account",
+		AccountNumber: util.RandomNumber(10),
+		BankName:      util.RandomUser() + " Bank",
+		CompanyID:     companyID,
+	}
+	p, err := testQueries.CreatePaymentDetail(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, p)
+	require.Equal(t, arg.AccountName, p.AccountName)
+	require.Equal(t, arg.AccountNumber, p.AccountNumber)
+	require.Equal(t, arg.BankName, p.BankName)
+	require.Equal(t, arg.CompanyID, p.CompanyID)
+	require.NotZero(t, p.ID)
+
+	return p
+}

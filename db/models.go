@@ -4,6 +4,29 @@
 
 package db
 
+import (
+	"time"
+)
+
+type CompanyDetail struct {
+	ID          int64     `json:"id"`
+	Name        string    `json:"name"`
+	Address     string    `json:"address"`
+	PhoneNumber string    `json:"phone_number"`
+	Email       string    `json:"email"`
+	OwnedBy     int32     `json:"owned_by"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+type PaymentDetail struct {
+	ID            int64     `json:"id"`
+	AccountName   string    `json:"account_name"`
+	AccountNumber string    `json:"account_number"`
+	BankName      string    `json:"bank_name"`
+	CompanyID     int64     `json:"company_id"`
+	CreatedAt     time.Time `json:"created_at"`
+}
+
 type User struct {
 	ID        int64  `json:"id"`
 	FirstName string `json:"first_name"`
