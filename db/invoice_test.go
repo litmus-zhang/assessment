@@ -51,6 +51,7 @@ func TestGetAllCompanyInvoices(t *testing.T) {
 	}
 
 	invoices, err := testQueries.GetAllInvoices(context.Background(), arg)
+	log.Println("Invoices: ", invoices)
 	require.NoError(t, err)
 	require.NotEmpty(t, invoices)
 	require.Len(t, invoices, 5)
