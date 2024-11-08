@@ -65,3 +65,39 @@ func (server *Server) dashboard(ctx *gin.Context) {
 		},
 	})
 }
+
+type createCustomerParams struct {
+	FirstName   string         `json:"first_name"`
+	LastName    string         `json:"last_name"`
+	Email       string         `json:"email"`
+	PhoneNumber string         `json:"phone_number"`
+	CompanyID   int64          `uri:"company_id" binding:"required,min=1"`
+	Address     sql.NullString `json:"address"`
+}
+
+func (server *Server) createCustomer(ctx *gin.Context) {
+	var req createCustomerParams
+
+	err := ctx.ShouldBindJSON(&req)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	args := db.CreateCustomerParams{
+		FirstName:   req.FirstName,
+		LastName:    req.LastName,
+		Email:       req.Email,
+		CompanyID:   req.CompanyID,
+		Address:     req.Address,
+		PhoneNumber: req.PhoneNumber,
+	}
+	customer, err := server.db.CreateCustomer(ctx, args)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, customer)
+}

@@ -20,8 +20,8 @@ func AppSetup(db db.Querier) *Server {
 	api := router.Group("/api/v1")
 	api.GET("/health", server.healthCheck)
 	api.GET("/dashboard/:company_id", server.dashboard)
-	api.GET("/invoice")
-	api.POST("/invoice")
+	api.GET("/company/:company_id/invoice/:invoice_id/customers/:customer_id", server.getSingleInvoice)
+	api.POST("/invoice", server.createInvoice)
 
 	server.router = router
 	return server

@@ -22,4 +22,7 @@ migrateup1:
 migratedown1:
 	migrate -path schema/migration -database "postgresql://main:main@localhost:4000/main?sslmode=disable" -verbose down 1
 
+start:
+	go run main.go
+
 .PHONY: startdb stopdb sqlc migrateup migratedown test
