@@ -33,7 +33,7 @@ WHERE id = $1;
 
 -- name: GetCompanyInvoiceSummary :many
 SELECT 
-    status, 
+    status,
     COUNT(*) AS count,
     CAST(SUM(amount) AS numeric) AS total_amount
 FROM 

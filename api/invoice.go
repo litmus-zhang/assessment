@@ -1,8 +1,10 @@
 package api
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/litmus-zhang/assessment/db"
@@ -72,12 +74,25 @@ func (server *Server) getSingleInvoice(ctx *gin.Context) {
 
 }
 
+type createInvoiceData struct {
+	CompanyID  int64     `json:"company_id" binding:"required,min=1"`
+	CustomerID int64     `json:"customer_id" binding:"required,min=1"`
+	Name       string    `json:"name" binding:"required"`
+	DueDate    time.Time `json:"due_date" binding:"required"`
+	Status     string    `json:"status" `
+	Note       string    `json:"note"`
+	Discount   string    `json:"discount"`
+}
+
 func (server *Server) createInvoice(ctx *gin.Context) {
-	var req db.Invoice
+	var req createInvoiceData
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
+	}
+	if req.Status == "" {
+		req.Status = "draft"
 	}
 	args := db.CreateInvoiceParams{
 		CompanyID:  req.CompanyID,
@@ -85,7 +100,7 @@ func (server *Server) createInvoice(ctx *gin.Context) {
 		Name:       req.Name,
 		DueDate:    req.DueDate,
 		Status:     req.Status,
-		Note:       req.Note,
+		Note:       sql.NullString{String: req.Note, Valid: req.Note != ""},
 		Discount:   req.Discount,
 	}
 	invoice, err := server.db.CreateInvoice(ctx, args)
